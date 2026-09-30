@@ -463,17 +463,17 @@ size_t Sx1262Driver::read_fifo(uint8_t *buf, size_t max_len) {
   uint8_t payload_len = rx_status[0];
   uint8_t rx_offset = rx_status[1];
 
-  if (payload_len == 0 || payload_len > sx1262::RX_FIXED_LEN) {
+  if (payload_len == 0 || payload_len > sx1262::MAX_PACKET_SIZE) {
     return 0;
   }
 
   // Read all fixed-length bytes from SX1262 buffer.
-  uint8_t raw[sx1262::RX_FIXED_LEN];
+  uint8_t raw[sx1262::MAX_PACKET_SIZE];
   this->read_fifo_(rx_offset, raw, payload_len);
 
   // Log raw buffer
   {
-    char hex[sx1262::RX_FIXED_LEN * 3 + 1];
+    char hex[sx1262::MAX_PACKET_SIZE * 3 + 1];
     size_t pos = 0;
     for (size_t i = 0; i < payload_len && pos < sizeof(hex) - 3; ++i) {
       pos += snprintf(hex + pos, sizeof(hex) - pos, "%02x ", raw[i]);
@@ -1090,7 +1090,7 @@ void Sx1262Driver::configure_fsk_() {
       0x20,        // Sync word: 32 bits (D3 91 D3 91)
       0x00,        // No address filtering
       0x00,        // Fixed length
-      sx1262::RX_FIXED_LEN,
+      sx1262::MAX_PACKET_SIZE,
       0x01,        // CRC OFF
       0x00,        // Whitening OFF
   };
