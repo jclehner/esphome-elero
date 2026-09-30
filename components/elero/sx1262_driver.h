@@ -133,7 +133,7 @@ constexpr uint8_t MAX_PACKET_SIZE = 64;  // Match CC1101_FIFO_LENGTH for compati
 // With 32-bit sync (D3 91 D3 91), the SX1262 strips the full sync word.
 // Buffer starts with the whitened payload. Use 32 to cover all packet sizes
 // (max: length 0x1E = 30 data + 1 length byte = 31, plus margin).
-constexpr uint8_t RX_FIXED_LEN = 32;
+//constexpr uint8_t RX_FIXED_LEN = packet::MAX_PACKET_SIZE;
 
 // BUSY pin timeout
 constexpr uint32_t BUSY_TIMEOUT_MS = 20;

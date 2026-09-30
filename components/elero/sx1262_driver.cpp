@@ -493,7 +493,7 @@ size_t Sx1262Driver::read_fifo(uint8_t *buf, size_t max_len) {
   // First de-whitened byte = Elero packet length.
   uint8_t pkt_len = data[0];
 
-  if (pkt_len < 0x1B || pkt_len > 0x1E) {
+  if (pkt_len < 0x1B) {
     ESP_LOGD(TAG, "bad length 0x%02x after de-whiten (raw[0]=0x%02x)", data[0], raw[0]);
     return 0;
   }
@@ -1195,7 +1195,7 @@ bool Sx1262Driver::restore_rx_packet_params_() {
       0x20,        // Sync word: 32 bits (D3 91 D3 91)
       0x00,        // No address filtering
       0x00,        // Fixed length
-      sx1262::RX_FIXED_LEN,
+      sx1262::MAX_PACKET_SIZE,
       0x01,        // CRC OFF
       0x00,        // Whitening OFF
   };
